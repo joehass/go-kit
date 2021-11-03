@@ -15,16 +15,6 @@ func Write2TmpZip(path string,fileName string) (string, error) {
 		return "", err
 	}
 
-	////结束后立刻删除
-	//defer func() {
-	//	err := os.RemoveAll(path)
-	//	if err != nil {
-	//		log.Error(ctx, "clear tmp zip fail",
-	//			zap.String("path", path),
-	//			zap.Error(err))
-	//	}
-	//}()
-
 	tmpZip := fmt.Sprintf("%s%s.zip", path,fileName)
 
 	if err := dir2zip(path, tmpZip);err != nil {
