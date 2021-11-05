@@ -45,7 +45,7 @@ func TestWriteFile(t *testing.T) {
 		FileName: "",
 		Model:    StoneSummary{},
 		Data:     datas,
-		fileType: FileTypeCSV,
+		FileType: FileTypeCSV,
 	})
 	assert.Nil(t,err)
 	fmt.Println(fileUrl)
@@ -54,10 +54,10 @@ func TestWriteFile(t *testing.T) {
 func TestWriteFileWithZip(t *testing.T) {
 	fileUrl,err := WriteFile(&FileOperator{
 		FilePath: "",
-		FileName: "",
+		FileName: "111",
 		Model:    StoneSummary{},
 		Data:     datas,
-		fileType: FileTypeCSV,
+		FileType: FileTypeCSV,
 	},WithZip())
 	assert.Nil(t,err)
 	fmt.Println(fileUrl)

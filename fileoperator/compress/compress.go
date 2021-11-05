@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"io"
 	"os"
+	"strings"
 )
 
 func compress(file *os.File, zw *zip.Writer) error {
@@ -17,6 +18,10 @@ func compress(file *os.File, zw *zip.Writer) error {
 			return err
 		}
 		for _, fi := range fileInfos {
+			filesInfo:=strings.Split(fi.Name(),".")
+			if len(filesInfo)>=2 && filesInfo[1] == "zip"{
+				continue
+			}
 			f, err := os.Open(file.Name() + "/" + fi.Name())
 			if err != nil {
 				return err

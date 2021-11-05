@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-kit/fileoperator/compress"
 	"github.com/go-kit/fileoperator/util"
+	"log"
 	"os"
 	"reflect"
 )
@@ -14,7 +15,7 @@ type FileOperator struct {
 	FileName string
 	Model interface{}
 	Data []interface{}
-	fileType FileType
+	FileType FileType
 }
 
 const (
@@ -34,7 +35,7 @@ func WriteFile(fileOperator *FileOperator,opts ...Option) (string,error) {
 	var (
 		filePath = fileOperator.FilePath
 		fileName = fileOperator.FileName
-		fileType = fileOperator.fileType
+		fileType = fileOperator.FileType
 		model = fileOperator.Model
 		data = fileOperator.Data
 		opt = newOption(opts...)
@@ -79,6 +80,13 @@ func WriteFile(fileOperator *FileOperator,opts ...Option) (string,error) {
 	w.Flush()
 
 	if opt.IsZip{
+		//结束后立刻删除
+		defer func() {
+			err := os.RemoveAll(tmpUrl)
+			if err != nil {
+				log.Printf("clear tmp zip fail,path:%s \n",tmpUrl)
+			}
+		}()
 		zipUrl,err := compress.Write2TmpZip(filePath,fileName)
 		if err != nil {
 			return "",err
